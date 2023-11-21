@@ -2,7 +2,12 @@ pub mod response {
     #![allow(non_snake_case)]
 
     use utoipa::ToSchema;
-    use domain::models::Invoice;
+    use domain::models::{Invoice,InvoiceFilters,InfoNode};
+
+    #[derive(ToSchema)]
+    pub struct InfoNodeResponse {
+        pub Ok: InfoNode,
+    }
 
     #[derive(ToSchema)]
     pub struct InvoiceResponse {
@@ -12,6 +17,16 @@ pub mod response {
     #[derive(ToSchema)]
     pub struct InvoicesResponse {
         pub Ok: Vec<Invoice>,
+    }
+
+    #[derive(ToSchema)]
+    pub struct InvoiceFiltersResponse {
+        pub Ok: InvoiceFilters,
+    }
+
+    #[derive(ToSchema)]
+    pub struct InvoicesFiltersResponse {
+        pub Ok: Vec<InvoiceFilters>,
     }
 
     #[derive(ToSchema)]

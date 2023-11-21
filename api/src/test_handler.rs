@@ -18,6 +18,10 @@ use crate::utils::response as resp;
 pub async fn get_test_handler() -> Result<HttpResponse, CustomError> {
 
     let info: Invoice = { Invoice {
+        socket: "".to_string(),
+        macaroon: "".to_string(),
+        cert: "".to_string(),
+        path: "/root/.lightning/bitcoin".to_string(),
         expiry: 360,
         cltv: 100,
         amount: 100,

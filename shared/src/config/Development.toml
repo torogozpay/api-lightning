@@ -1,0 +1,11 @@
+[server]
+host = "127.0.0.1"
+port = "3005"
+
+[log]
+level = "debug"
+
+[api]
+api_key = "3ABC-9099-825A-7113-0E33"
+api_username = "TorogozPay"
+api_password = "CheritoCafe741"

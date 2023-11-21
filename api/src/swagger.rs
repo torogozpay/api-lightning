@@ -3,7 +3,7 @@ use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
 use domain::models::Invoice;
-use crate::invoice_handler as invoice;
+use crate::invoice_c_handler as invoice;
 
 #[derive(OpenApi)]
 #[openapi(
