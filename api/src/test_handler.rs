@@ -5,27 +5,27 @@ use domain::models::Invoice;
 use crate::utils::response as resp;
 
 
-
 #[utoipa::path(
     get,
-    path = "/getTest",
+    path = "/health_check",
     responses(
         (status = 200, description = "Testing", body = inline(Invoice)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
     )
 )]
-#[get("/getTest")]
+#[get("/health_check")]
 pub async fn get_test_handler() -> Result<HttpResponse, CustomError> {
 
     let info: Invoice = { Invoice {
+        lnd: true,
         socket: "".to_string(),
         macaroon: "".to_string(),
         cert: "".to_string(),
-        path: "/root/.lightning/bitcoin".to_string(),
+        path: "".to_string(),
         expiry: 360,
-        cltv: 100,
-        amount: 100,
-        description: "Pago".to_string()
+        cltv: 144,
+        amount: 1,
+        description: "test".to_string()
     }};
  
     Ok(HttpResponse::Ok().json(info))        

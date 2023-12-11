@@ -1,31 +1,41 @@
-use application::lightning_c;
+use application::{lightning_c, lightning_lnd};
 use actix_web::{get, post, web, HttpRequest, HttpResponse};
 
 use shared::{error_handler::CustomError, authorization::verify_auth};
 use domain::models::{Invoice as MyInvoice, InvoiceFilters, InfoNode};
+use domain::modelsext::{InvoiceResponse as MyInvoiceResponse,InfoResponse};
 use crate::utils::response as resp;
 
 
 #[utoipa::path(
     get,
-    path = "/c/getInfo",
+    path = "/getInfo",
     responses(
         (status = 200, description = "Get info of node", body = inline(resp::InvoiceResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
     )
 )]
-#[get("/c/getInfo")]
+#[get("/getInfo")]
 pub async fn get_info_handler(data: web::Json<InfoNode>) -> Result<HttpResponse, CustomError> {
-    let info = lightning_c::ClnConnector::getinfo(data.into_inner()) 
-        .await
-        .unwrap();
+    let info: InfoResponse;
+    let data = data.into_inner();
+
+    if data.lnd {
+        info = lightning_lnd::LndConnector::getinfo(data)
+                .await
+                .unwrap();
+    } else {
+        info = lightning_c::ClnConnector::getinfo(data) 
+                .await
+                .unwrap();
+    }
 
     Ok(HttpResponse::Ok().json(info))        
 }
 
 #[utoipa::path(
     post,
-    path = "/c/createInvoice",
+    path = "/createInvoice",
     responses(
         (status = 200, description = "Create a new invoice", body = inline(resp::InvoiceResponse)),
         (status = 401, description = "Not authorizated", body = inline(resp::ErrorResponse)),
@@ -33,14 +43,23 @@ pub async fn get_info_handler(data: web::Json<InfoNode>) -> Result<HttpResponse,
         (status = 999, description = "Unknown error", body = inline(resp::ErrorResponse))
     )
 )]
-#[post("/c/createInvoice")]
+#[post("/createInvoice")]
 pub async fn create_invoice_handler(invoice : web::Json<MyInvoice>, req: HttpRequest) -> Result<HttpResponse, CustomError> {
     match verify_auth(req.headers()) {
         Ok(true) => {
-            let newinvoice = lightning_c::ClnConnector::create_invoice(invoice.into_inner())
-                .await
-                .unwrap();    
+            let newinvoice: MyInvoiceResponse;
+            let invoice = invoice.into_inner();
         
+            if invoice.lnd {
+                newinvoice = lightning_lnd::LndConnector::create_invoice(invoice)
+                                .await
+                                .unwrap();                
+            } else {    
+                newinvoice = lightning_c::ClnConnector::create_invoice(invoice)
+                                .await
+                                .unwrap();    
+            }
+
             Ok(HttpResponse::Ok().json(newinvoice))
         },
         Ok(false) => Err(CustomError::new(401, "Not authorizated".to_string())),
@@ -50,7 +69,7 @@ pub async fn create_invoice_handler(invoice : web::Json<MyInvoice>, req: HttpReq
 
 #[utoipa::path(
     get,
-    path = "/c/getInvoice",
+    path = "/getInvoice",
     responses(
         (status = 200, description = "Get a invoice identifies with hash", body = inline(resp::InvoiceFiltersResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
@@ -59,14 +78,23 @@ pub async fn create_invoice_handler(invoice : web::Json<MyInvoice>, req: HttpReq
         (status = 999, description = "Unknown error", body = inline(resp::ErrorResponse))
     )
 )]
-#[get("/c/getInvoice")]
+#[get("/getInvoice")]
 pub async fn get_invoice_handler(invoice_filters: web::Json<InvoiceFilters>, req: HttpRequest) -> Result<HttpResponse, CustomError> {
     match verify_auth(req.headers()) {
         Ok(true) => {
-            let newinvoice = lightning_c::ClnConnector::get_invoice(invoice_filters.into_inner())
-                .await
-                .unwrap();
-            
+            let newinvoice: MyInvoiceResponse;
+            let invoice_filters = invoice_filters.into_inner();
+        
+            if invoice_filters.lnd {
+                newinvoice = lightning_lnd::LndConnector::get_invoice(invoice_filters)
+                                .await
+                                .unwrap();
+            } else {                
+                newinvoice = lightning_c::ClnConnector::get_invoice(invoice_filters)
+                                .await
+                                .unwrap();
+            }
+
             Ok(HttpResponse::Ok().json(newinvoice))
         },
         Ok(false) => Err(CustomError::new(401, "Not authorizated".to_string())),
