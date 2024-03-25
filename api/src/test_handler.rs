@@ -16,7 +16,17 @@ use crate::utils::response as resp;
 #[get("/health_check")]
 pub async fn get_test_handler() -> Result<HttpResponse, CustomError> {
 
-    let info = "API Lightning Started".to_string();
+    let info: Invoice = { Invoice {
+        lnd: true,
+        socket: "".to_string(),
+        macaroon: "".to_string(),
+        cert: "".to_string(),
+        path: "".to_string(),
+        expiry: 360,
+        cltv: 144,
+        amount: 1,
+        description: "test".to_string()
+    }};
  
     Ok(HttpResponse::Ok().json(info))        
 }
