@@ -1,7 +1,7 @@
 [node]
 macaroon_file = "admin.macaroon"
 cert_file = "tls.cert"
-host = "207.244.235.5"
+host = "127.0.0.1"
 port = 10009
 expiry = 3600
 cltv_expiry = 144
@@ -11,7 +11,7 @@ max_fee = 2
 out = "xxx"
 
 [server]
-database_url = "postgres://torogoz:T0r0g0z@localhost:5432/torogozpay?sslmode=disable"
+database_url = "postgres://user:user@localhost:5432/testpay?sslmode=disable"
 host = "127.0.0.1"
 port = "8181"
 
@@ -19,6 +19,6 @@ port = "8181"
 level = "info"
 
 [api]
-api_key = "3ABC-9099-825A-7113-0E33"
-api_username = "TorogozPay"
-api_password = "CheritoCafe741"
+api_key = "0000-0000-0000-0000-0000"
+api_username = "UserPay"
+api_password = "password"
