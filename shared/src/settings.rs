@@ -1,9 +1,34 @@
+use lazy_static::lazy_static;
 use config::{Config, ConfigError, File};
 use serde::Deserialize;
 use std::fmt;
 
 #[derive(Debug, Deserialize, Clone)]
+pub struct Node {
+    pub macaroon_file: String,    
+    pub cert_file: String,    
+    pub host: String,
+    pub port: u32,
+
+    //duración de invoice
+    pub expiry: i64, 
+    //hold invoice cltv delta (expiration time in blocks)
+    pub cltv_expiry: u64,
+    //maxima cantidad de saltos que queremos que el nodo de para intentar efectuar el pago
+    pub max_paths: i32,  
+    //cantidad de tiempo para tratar de encontrar una ruta
+    pub pathfinding_timeout: i32,  
+    //la cantidad maxima de fee que esta mos dispuestos a pagar por el ruteo
+    pub max_fee: f64,  
+    //el ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
+    pub out: String, 
+}    
+
+
+
+#[derive(Debug, Deserialize, Clone)]
 pub struct Server {
+    pub database_url: String,    
     pub host: String,
     pub port: u16,
 }
@@ -22,6 +47,7 @@ pub struct Api {
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Settings {
+    pub node: Node,
     pub server: Server,
     pub log: Log,
     pub api: Api,
@@ -69,4 +95,8 @@ impl From<&str> for ENV {
             _ => ENV::Development,
         }
     }
+}
+
+lazy_static! {
+    pub static ref CONFIG : Settings = Settings::new().expect("Config can be loaded");
 }

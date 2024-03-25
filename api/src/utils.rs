@@ -2,11 +2,12 @@ pub mod response {
     #![allow(non_snake_case)]
 
     use utoipa::ToSchema;
-    use domain::models::{Invoice,InvoiceFilters,InfoNode};
+    use domain::models::Invoice;
+    use domain::modelsext::{InvoiceFilters,InvoiceData};
 
     #[derive(ToSchema)]
-    pub struct InfoNodeResponse {
-        pub Ok: InfoNode,
+    pub struct InvoiceDataResponse {
+        pub Ok: InvoiceData,
     }
 
     #[derive(ToSchema)]

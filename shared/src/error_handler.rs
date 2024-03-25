@@ -1,10 +1,13 @@
 #[warn(unused_imports)]
 use actix_web::http::StatusCode;
 use actix_web::{HttpResponse, ResponseError};
+use diesel::result::Error as DieselError;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_json::json;
 use std::fmt;
+//use anyhow::anyhow;
+//use reqwest::Error;
 
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -25,6 +28,42 @@ impl CustomError {
 impl fmt::Display for CustomError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str(self.error_message.as_str())
+    }
+}
+
+impl From<DieselError> for CustomError {
+    fn from(error: DieselError) -> CustomError {
+        match error {
+            DieselError::DatabaseError(_, err) => CustomError::new(409, err.message().to_string()),
+            DieselError::NotFound => {
+                CustomError::new(404, "Record not found".to_string())
+            }
+            err => CustomError::new(500, format!("Unknown Diesel error: {err}")),
+        }
+    }
+}
+
+impl From<anyhow::Error> for CustomError {
+    fn from(error: anyhow::Error) -> CustomError {
+        match error {
+            err => CustomError::new(500, format!("Unknown error: {err}")),
+        }
+    }
+}
+
+impl From<std::io::Error> for CustomError {
+    fn from(error: std::io::Error) -> CustomError {
+        match error {
+            err => CustomError::new(500, format!("Unknown error: {err}")),
+        }
+    }
+}
+
+impl From<reqwest::Error> for CustomError {
+    fn from(error: reqwest::Error) -> CustomError {
+        match error {
+            err => CustomError::new(500, format!("Unknown error: {err}")),
+        }
     }
 }
 

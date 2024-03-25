@@ -1,34 +1,39 @@
+use application::lightning;
 use actix_web::{get, HttpResponse};
 
 use shared::error_handler::CustomError;
-use domain::models::Invoice;
 use crate::utils::response as resp;
-
 
 
 #[utoipa::path(
     get,
-    path = "/getTest",
+    path = "/health_check",
     responses(
-        (status = 200, description = "Testing", body = inline(Invoice)),
+        (status = 200, description = "Testing", body = inline(resp::InvoiceResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
     )
 )]
-#[get("/getTest")]
+#[get("/health_check")]
 pub async fn get_test_handler() -> Result<HttpResponse, CustomError> {
 
-    let info: Invoice = { Invoice {
-        socket: "".to_string(),
-        macaroon: "".to_string(),
-        cert: "".to_string(),
-        path: "/root/.lightning/bitcoin".to_string(),
-        expiry: 360,
-        cltv: 100,
-        amount: 100,
-        description: "Pago".to_string()
-    }};
+    let info = "API Lightning Started".to_string();
  
     Ok(HttpResponse::Ok().json(info))        
 }
 
+#[utoipa::path(
+    get,
+    path = "/getInfo",
+    responses(
+        (status = 200, description = "Get info of node", body = inline(resp::InvoiceResponse)),
+        (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
+    )
+)]
+#[get("/getInfo")]
+pub async fn get_info_handler() -> Result<HttpResponse, CustomError> {
+    let info = lightning::LndConnector::getinfo() 
+        .await
+        .unwrap();
 
+    Ok(HttpResponse::Ok().json(info))        
+}

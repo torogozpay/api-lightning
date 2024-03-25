@@ -1,2 +1,3 @@
-pub mod lightning_c;
-pub mod lightning_lnd;
+pub mod lightning;
+pub mod lnurl;
+pub mod invoice;

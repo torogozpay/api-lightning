@@ -16,9 +16,7 @@ use crate::utils::response as resp;
 )]
 #[get("/c/getInfo")]
 pub async fn get_info_handler(data: web::Json<InfoNode>) -> Result<HttpResponse, CustomError> {
-    let cn = lightning_c::ClnConnector::new(data.path.clone()).await;
-
-    let info = lightning_c::ClnConnector::getinfo(&mut lightning_c::ClnConnector { sock: (cn.sock) })
+    let info = lightning_c::ClnConnector::getinfo(data.into_inner()) 
         .await
         .unwrap();
 
@@ -39,9 +37,7 @@ pub async fn get_info_handler(data: web::Json<InfoNode>) -> Result<HttpResponse,
 pub async fn create_invoice_handler(invoice : web::Json<MyInvoice>, req: HttpRequest) -> Result<HttpResponse, CustomError> {
     match verify_auth(req.headers()) {
         Ok(true) => {
-            let cn = lightning_c::ClnConnector::new(invoice.path.clone()).await;
-        
-            let newinvoice = lightning_c::ClnConnector::create_invoice(&mut lightning_c::ClnConnector { sock: (cn.sock) }, invoice.into_inner())
+            let newinvoice = lightning_c::ClnConnector::create_invoice(invoice.into_inner())
                 .await
                 .unwrap();    
         
@@ -67,9 +63,7 @@ pub async fn create_invoice_handler(invoice : web::Json<MyInvoice>, req: HttpReq
 pub async fn get_invoice_handler(invoice_filters: web::Json<InvoiceFilters>, req: HttpRequest) -> Result<HttpResponse, CustomError> {
     match verify_auth(req.headers()) {
         Ok(true) => {
-            let cn = lightning_c::ClnConnector::new(invoice_filters.path.clone()).await;
-
-            let newinvoice = lightning_c::ClnConnector::get_invoice(&mut lightning_c::ClnConnector { sock: (cn.sock) }, invoice_filters.into_inner())
+            let newinvoice = lightning_c::ClnConnector::get_invoice(invoice_filters.into_inner())
                 .await
                 .unwrap();
             

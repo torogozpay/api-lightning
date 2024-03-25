@@ -1,14 +1,6 @@
-use lazy_static::lazy_static;
+use crate::settings::CONFIG;
 use actix_web::http::header::map::HeaderMap;
 use base64;
-
-use crate::settings;
-
-lazy_static! {
-    static ref CONFIG: settings::Settings =
-        settings::Settings::new().expect("Config can be loaded");
-}
-
 
 pub fn verify_auth(headers: &HeaderMap) -> Result<bool, String> {
    let api_key = CONFIG.api.api_key.clone();

@@ -1,9 +1,22 @@
+[node]
+macaroon_file = "admin.macaroon"
+cert_file = "tls.cert"
+host = "207.244.235.5"
+port = 10009
+expiry = 3600
+cltv_expiry = 144
+max_paths = 5  
+pathfinding_timeout = 60 
+max_fee = 0.001
+out = "xxx"
+
 [server]
+database_url = "postgres://torogoz:T0r0g0z@207.244.235.5:5433/torogozpay?sslmode=disable"
 host = "127.0.0.1"
-port = "3005"
+port = "8181"
 
 [log]
-level = "debug"
+level = "info"
 
 [api]
 api_key = "3ABC-9099-825A-7113-0E33"

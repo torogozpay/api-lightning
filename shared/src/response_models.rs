@@ -1,6 +1,7 @@
 // shared/src/response_models.rs
 
-use domain::models::{Invoice,InvoiceFilters};
+use domain::models::Invoice;
+use domain::modelsext::InvoiceFilters;
 use serde::Serialize;
 
 #[derive(Serialize)]
