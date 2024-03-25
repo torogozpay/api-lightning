@@ -1,8 +1,7 @@
 use actix_web::{web, App, HttpServer, Error};
 use listenfd::ListenFd;
 
-use api::{invoice_handler, invoice_c_handler, invoice_lnd_handler, test_handler, swagger};
-use shared::settings;
+use infrastructure as db;
 
 use api::{invoice_handler, pay_handler, test_handler, swagger};
 use api::scheduler::start_scheduler;
@@ -20,15 +19,12 @@ pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("../infrastructure/
 pub fn init_routes(config: &mut web::ServiceConfig) {
     config.service(web::scope("/api/v1")
         .service(test_handler::get_test_handler)
-        .service(invoice_handler::get_info_handler)
+        .service(test_handler::get_info_handler)
         .service(invoice_handler::create_invoice_handler)
         .service(invoice_handler::get_invoice_handler)
-        .service(invoice_c_handler::get_info_handler)
-        .service(invoice_c_handler::create_invoice_handler)
-        .service(invoice_c_handler::get_invoice_handler)
-        .service(invoice_lnd_handler::get_info_handler)
-        .service(invoice_lnd_handler::create_invoice_handler)
-        .service(invoice_lnd_handler::get_invoice_handler)
+        .service(invoice_handler::check_invoice_handler)
+        .service(pay_handler::get_verify_address_handler)
+        .service(pay_handler::get_payment_handler)
     );
 }
 
