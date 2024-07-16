@@ -4,11 +4,14 @@ cert_file = "tls.cert"
 host = "207.244.235.5"
 port = 10009
 expiry = 3600
-cltv_expiry = 144
+cltv_expiry = 80
 max_paths = 5 
 pathfinding_timeout = 60  
-max_fee = 2
-out = "xxx"
+max_fee = 0.001
+min_fee = 2
+out1 = "xxx"
+out2 = "xxx"
+out3 = "xxx"
 
 [server]
 database_url = "postgres://torogoz:T0r0g0z@localhost:5432/torogozpay?sslmode=disable"
@@ -18,7 +21,20 @@ port = "8181"
 [log]
 level = "info"
 
+[app]
+image_url = "https://bitcoin.chiltota.xyz/images/torogoz_pay.png"
+
+[openapi]
+swagger = false
+
 [api]
-api_key = "3ABC-9099-825A-7113-0E33"
-api_username = "TorogozPay"
-api_password = "CheritoCafe741"
+api_server= "https://"
+api_user= ""
+api_pass= ""
+
+[jwt]
+jwt_secret= "MySecretPassword123"
+jwt_secs= 3600 
+
+[job]
+seconds= 60

@@ -1,3 +1,4 @@
+use shared::settings::CONFIG;
 use anyhow::{Context, Result};
 use serde_json::Value;
 
@@ -25,12 +26,18 @@ pub async fn ln_exists(address: &str) -> Result<bool> {
     }
 }
 
-pub async fn resolv_ln_address(address: &str, amount: u64) -> Result<String> {
+pub async fn resolv_ln_address(address: &str, amount: u64, description: &str) -> Result<String> {
     let (user, domain) = match address.split_once('@') {
         Some((user, domain)) => (user, domain),
         None => return Ok("".to_string()),
     };
     let amount_msat = amount * 1000;
+
+    let metadata = serde_json::json!([
+        ["text/plain", description],
+        ["image_url", CONFIG.app.image_url.clone()] // Agregar la URL de la imagen a la metadata
+    ]);
+    let metadata_str = serde_json::to_string(&metadata)?;
 
     let url = format!("https://{domain}/.well-known/lnurlp/{user}");
     let res = reqwest::get(url)
@@ -39,7 +46,9 @@ pub async fn resolv_ln_address(address: &str, amount: u64) -> Result<String> {
     let status = res.status();
     if status.is_success() {
         let body = res.text().await?;
+
         let body: Value = serde_json::from_str(&body)?;
+
         let tag = body["tag"].as_str().unwrap_or("");
         if tag != "payRequest" {
             return Ok("".to_string());
@@ -49,8 +58,9 @@ pub async fn resolv_ln_address(address: &str, amount: u64) -> Result<String> {
         if min > amount_msat || max < amount_msat {
             return Ok("".to_string());
         }
+
         let callback = body["callback"].as_str().unwrap_or("");
-        let callback = format!("{callback}?amount={amount_msat}");
+        let callback = format!("{callback}?amount={amount_msat}&metadata={metadata_str}");
         let res = reqwest::get(callback)
             .await
             .context("Something went wrong with API request, try again!")?;

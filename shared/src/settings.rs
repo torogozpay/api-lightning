@@ -11,17 +11,23 @@ pub struct Node {
     pub port: u32,
 
     //duración de invoice
-    pub expiry: i64, 
+    pub expiry: i32, 
     //hold invoice cltv delta (expiration time in blocks)
-    pub cltv_expiry: u64,
+    pub cltv_expiry: i32,
     //maxima cantidad de saltos que queremos que el nodo de para intentar efectuar el pago
     pub max_paths: i32,  
     //cantidad de tiempo para tratar de encontrar una ruta
     pub pathfinding_timeout: i32,  
-    //la cantidad maxima de fee que esta mos dispuestos a pagar por el ruteo
+    //la cantidad maxima de fee que esta mos dispuestos a pagar por el ruteo (porcentaje)
     pub max_fee: f64,  
+    //la cantidad minima de fee que esta mos dispuestos a pagar por el ruteo (satoshi)
+    pub min_fee: i64,  
     //el ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
-    pub out: String, 
+    pub out1: u64, 
+    //el ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
+    pub out2: u64, 
+    //el ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
+    pub out3: u64, 
 }    
 
 
@@ -39,10 +45,31 @@ pub struct Log {
 }
 
 #[derive(Debug, Deserialize, Clone)]
+pub struct OpenApi {
+    pub swagger: bool,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct App {
+    pub image_url: String
+}
+
+#[derive(Debug, Deserialize, Clone)]
 pub struct Api {
-    pub api_key: String,
-    pub api_username: String,
-    pub api_password: String
+    pub api_server: String,
+    pub api_user: String,
+    pub api_pass: String
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Jwt {
+    pub jwt_secret: String,
+    pub jwt_secs: usize
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Job {
+    pub seconds: i32,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -50,8 +77,12 @@ pub struct Settings {
     pub node: Node,
     pub server: Server,
     pub log: Log,
+    pub app: App,
     pub api: Api,
+    pub jwt: Jwt,
+    pub job: Job,
     pub env: ENV,
+    pub openapi: OpenApi
 }
 
 const CONFIG_FILE_PATH: &str = "./shared/src/config/Default.toml";

@@ -5,9 +5,8 @@ use diesel::result::Error as DieselError;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_json::json;
+
 use std::fmt;
-//use anyhow::anyhow;
-//use reqwest::Error;
 
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -45,6 +44,14 @@ impl From<DieselError> for CustomError {
 
 impl From<anyhow::Error> for CustomError {
     fn from(error: anyhow::Error) -> CustomError {
+        match error {
+            err => CustomError::new(500, format!("Unknown error: {err}")),
+        }
+    }
+}
+
+impl From<serde_json::error::Error> for CustomError {
+    fn from(error: serde_json::error::Error) -> CustomError {
         match error {
             err => CustomError::new(500, format!("Unknown error: {err}")),
         }

@@ -20,6 +20,11 @@ actix-rt = "2.8.0"
 
 dotenv = "0.15"
 base64 = "0.13"
+hex = "0.4.3"
 config = "0.10"
 lazy_static = "1.4"
 anyhow = "1.0"
+
+jsonwebtoken = "9.2.0"
+
+tracing = "0.1.37"

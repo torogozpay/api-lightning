@@ -35,8 +35,15 @@ pub mod response {
         pub Err: String,
     }
 		
+    #[derive(ToSchema)]
+    pub struct BoolResponse {
+        pub Ok: bool,
+    }	
 	
-	
+    #[derive(ToSchema)]
+    pub struct StringResponse {
+        pub Ok: String,
+    }
 }
 
 pub mod check {
