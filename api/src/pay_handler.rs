@@ -5,7 +5,7 @@ use shared::{error_handler::CustomError, authorization::verificate_token};
 use domain::modelsext::{Payment, PaymentFilters};
 use crate::utils::response as resp;
 
-
+/// Check address (LNURL)
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/verifyAddress",
@@ -32,6 +32,7 @@ pub async fn get_verify_address_handler(data: web::Json<PaymentFilters>, req: Ht
     }      
 }
 
+/// Create a bill payment 
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/generatePayInvoice",

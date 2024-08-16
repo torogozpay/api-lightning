@@ -18,16 +18,12 @@ pub struct Node {
     pub max_paths: i32,  
     //cantidad de tiempo para tratar de encontrar una ruta
     pub pathfinding_timeout: i32,  
-    //la cantidad maxima de fee que esta mos dispuestos a pagar por el ruteo (porcentaje)
+    //cantidad maxima de fee que esta mos dispuestos a pagar por el ruteo (porcentaje)
     pub max_fee: f64,  
-    //la cantidad minima de fee que esta mos dispuestos a pagar por el ruteo (satoshi)
+    //cantidad minima de fee que esta mos dispuestos a pagar por el ruteo (satoshi)
     pub min_fee: i64,  
-    //el ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
-    pub out1: u64, 
-    //el ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
-    pub out2: u64, 
-    //el ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
-    pub out3: u64, 
+    //ID del canal del peer por el cual queremos sacar el pago de nuestro nodo
+    pub out: u64, 
 }    
 
 

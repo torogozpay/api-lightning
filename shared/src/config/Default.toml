@@ -1,20 +1,18 @@
 [node]
 macaroon_file = "admin.macaroon"
 cert_file = "tls.cert"
-host = "207.244.235.5"
-port = 10009
+host = "127.0.0.1"
+port = 8080
 expiry = 3600
 cltv_expiry = 80
 max_paths = 5 
 pathfinding_timeout = 60  
-max_fee = 0.001
-min_fee = 2
-out1 = "xxx"
-out2 = "xxx"
-out3 = "xxx"
+max_fee = 0.01
+min_fee = 5
+out = "xxx"
 
 [server]
-database_url = "postgres://torogoz:T0r0g0z@localhost:5432/torogozpay?sslmode=disable"
+database_url = "postgres://USER:PASSWORD@SERVER:PORT/lightningapi?sslmode=disable"
 host = "127.0.0.1"
 port = "8181"
 
@@ -22,7 +20,7 @@ port = "8181"
 level = "info"
 
 [app]
-image_url = "https://bitcoin.chiltota.xyz/images/torogoz_pay.png"
+image_url = "https://"
 
 [openapi]
 swagger = false
@@ -33,7 +31,7 @@ api_user= ""
 api_pass= ""
 
 [jwt]
-jwt_secret= "MySecretPassword123"
+jwt_secret= "SECRET"
 jwt_secs= 3600 
 
 [job]

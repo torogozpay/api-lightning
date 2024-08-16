@@ -311,9 +311,7 @@ impl LndConnector {
 fn get_channels() -> Vec<String> {
     let mut channels = vec![];
     
-    //channels.push(CONFIG.node.out1.clone());
-    channels.push(CONFIG.node.out2.to_string());
-    //channels.push(CONFIG.node.out3.clone());
+    channels.push(CONFIG.node.out.to_string());
     
     return channels;
 }

@@ -12,6 +12,7 @@ use uuid::Uuid;
 
 use tracing::info;
 
+/// Create an invoice
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/createInvoice",
@@ -88,11 +89,12 @@ pub async fn create_invoice_handler(invoice : web::Json<InvoiceData>, req: HttpR
     }
 }
 
+/// Get an invoice by hash
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/lookupInvoice",
     responses(
-        (status = 200, description = "Get a invoice identifies with hash", body = inline(resp::InvoiceFiltersResponse)),
+        (status = 200, description = "Get an invoice identifies with hash", body = inline(resp::InvoiceFiltersResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
         (status = 401, description = "Not authorizated", body = inline(resp::ErrorResponse)),
     ),
@@ -175,11 +177,12 @@ pub fn get_data_invoice(invoiceln: LookupInvoiceResponse, _new: Invoice, err: bo
     return data;
 }
 
+/// Check an invoice
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/checkInvoice",
     responses(
-        (status = 200, description = "Verify a invoice identifies with address", body = inline(resp::InvoiceFiltersResponse)),
+        (status = 200, description = "Verify an invoice identifies with address", body = inline(resp::InvoiceFiltersResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
         (status = 401, description = "Not authorizated", body = inline(resp::ErrorResponse)),
     ),
@@ -204,6 +207,7 @@ pub async fn check_invoice_handler(invoice_data: web::Json<InvoiceCheck>, req: H
     }
 }
 
+/// Get an order
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/lookupOrder",
