@@ -1,0 +1,841 @@
+{
+   "openapi":"3.0.3",
+   "info":{
+      "title":"api",
+      "description":"",
+      "license":{
+         "name":""
+      },
+      "version":"0.1.0"
+   },
+   "paths":{
+      "/api/lightning/v1/checkInvoice":{
+         "post":{
+            "tags":[
+               "invoice"
+            ],
+            "summary":"Verify an invoice",
+            "description":"Verify an invoice",
+            "operationId":"check_invoice_handler",
+            "requestBody":{
+               "description":"",
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/InvoiceCheck"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Find an invoice with address",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Ok"
+                           ],
+                           "properties":{
+                              "Ok":{
+                                 "$ref":"#/components/schemas/InvoiceFilters"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Error",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "401":{
+                  "description":"Not authorized",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "security":[
+               {
+                  "bearerAuth":[
+                     
+                  ]
+               }
+            ]
+         }
+      },
+      "/api/lightning/v1/createInvoice":{
+         "post":{
+            "tags":[
+               "invoice"
+            ],
+            "summary":"Create an invoice",
+            "description":"Create an invoice",
+            "operationId":"create_invoice_handler",
+            "requestBody":{
+               "description":"",
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/InvoiceData"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Create a new invoice",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Ok"
+                           ],
+                           "properties":{
+                              "Ok":{
+                                 "$ref":"#/components/schemas/Invoice"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Error",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "401":{
+                  "description":"Not authorized",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "security":[
+               {
+                  "bearerAuth":[
+                     
+                  ]
+               }
+            ]
+         }
+      },
+      "/api/lightning/v1/generatePayInvoice":{
+         "post":{
+            "tags":[
+               "pay"
+            ],
+            "summary":"Create a new payment",
+            "description":"Create a new payment",
+            "operationId":"get_payment_handler",
+            "requestBody":{
+               "description":"",
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/Payment"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Generate new invoice by address",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Ok"
+                           ],
+                           "properties":{
+                              "Ok":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Error",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "security":[
+               {
+                  "bearerAuth":[
+                     
+                  ]
+               }
+            ]
+         }
+      },
+      "/api/lightning/v1/lookupInvoice":{
+         "post":{
+            "tags":[
+               "invoice"
+            ],
+            "summary":"Find an invoice by hash",
+            "description":"Find an invoice by hash",
+            "operationId":"get_invoice_handler",
+            "requestBody":{
+               "description":"",
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/InvoiceFilters"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Find an invoice ID by hash",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Ok"
+                           ],
+                           "properties":{
+                              "Ok":{
+                                 "$ref":"#/components/schemas/InvoiceFilters"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Error",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "401":{
+                  "description":"Not authorized",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "security":[
+               {
+                  "bearerAuth":[
+                     
+                  ]
+               }
+            ]
+         }
+      },
+      "/api/lightning/v1/lookupOrder":{
+         "post":{
+            "tags":[
+               "invoice"
+            ],
+            "summary":"Get an order",
+            "description":"Get an order",
+            "operationId":"get_order_handler",
+            "requestBody":{
+               "description":"",
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/OrderFilters"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Get an order identified by uuid",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Ok"
+                           ],
+                           "properties":{
+                              "Ok":{
+                                 "$ref":"#/components/schemas/InvoiceFilters"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Error",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "401":{
+                  "description":"Not authorized",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "security":[
+               {
+                  "bearerAuth":[
+                     
+                  ]
+               }
+            ]
+         }
+      },
+      "/api/lightning/v1/verifyAddress":{
+         "post":{
+            "tags":[
+               "pay"
+            ],
+            "summary":"Check address (LNURL)",
+            "description":"Check address (LNURL)",
+            "operationId":"get_verify_address_handler",
+            "requestBody":{
+               "description":"",
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/PaymentFilters"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Testing address",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Ok"
+                           ],
+                           "properties":{
+                              "Ok":{
+                                 "type":"boolean"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Error",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"object",
+                           "required":[
+                              "Err"
+                           ],
+                           "properties":{
+                              "Err":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "security":[
+               {
+                  "bearerAuth":[
+                     
+                  ]
+               }
+            ]
+         }
+      }
+   },
+   "components":{
+      "schemas":{
+         "Invoice":{
+            "type":"object",
+            "description":"Define a structure to represent data of the invoice",
+            "required":[
+               "id",
+               "business_id",
+               "order_id",
+               "presell_id",
+               "bolt11",
+               "description",
+               "customer_name",
+               "customer_email",
+               "currency",
+               "sub_total",
+               "taxes",
+               "shipping",
+               "total_amount",
+               "amount_sat",
+               "status",
+               "invoice_date",
+               "created_at",
+               "updated_at",
+               "distributed",
+               "apply_split"
+            ],
+            "properties":{
+               "amount_sat":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the order‘s total sats"
+               },
+               "apply_split":{
+                  "type":"boolean",
+                  "description":"Represents split payment if applicable"
+               },
+               "bolt11":{
+                  "type":"string",
+                  "description":"Represents the invoice request"
+               },
+               "business_id":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the business identifier"
+               },
+               "created_at":{
+                  "type":"string",
+                  "description":"Represents the order‘s creation date"
+               },
+               "currency":{
+                  "type":"string",
+                  "description":"Represents the transaction currency"
+               },
+               "customer_email":{
+                  "type":"string",
+                  "description":"Represents the email address"
+               },
+               "customer_name":{
+                  "type":"string",
+                  "description":"Represents the customer‘s name"
+               },
+               "description":{
+                  "type":"string",
+                  "description":"Represents the invoice‘s description"
+               },
+               "distributed":{
+                  "type":"boolean",
+                  "description":"Indicates whether the payment was distributed"
+               },
+               "id":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the invoice ID"
+               },
+               "invoice_date":{
+                  "type":"string",
+                  "description":"Represents the order‘s date"
+               },
+               "order_id":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the order identifier"
+               },
+               "payment_hash":{
+                  "type":"string",
+                  "description":"Represents the payment hash",
+                  "nullable":true
+               },
+               "payment_secret":{
+                  "type":"string",
+                  "description":"Represents the invoice secret",
+                  "nullable":true
+               },
+               "presell_id":{
+                  "type":"string",
+                  "description":"Represents the pre order identifier"
+               },
+               "shipping":{
+                  "type":"string",
+                  "description":"Represents the order‘s shipping amount"
+               },
+               "status":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the invoice‘s status"
+               },
+               "sub_total":{
+                  "type":"string",
+                  "description":"Represents the order‘s subtotal"
+               },
+               "taxes":{
+                  "type":"string",
+                  "description":"Represents the order‘s taxes"
+               },
+               "total_amount":{
+                  "type":"string",
+                  "description":"Represents the order‘s total amount"
+               },
+               "updated_at":{
+                  "type":"string",
+                  "description":"Represents the order‘s update date"
+               }
+            }
+         },
+         "InvoiceCheck":{
+            "type":"object",
+            "description":"Define a structure to validate invoice",
+            "required":[
+               "payment_request"
+            ],
+            "properties":{
+               "amount":{
+                  "type":"integer",
+                  "format":"int64",
+                  "description":"Represents the invoice total amount",
+                  "nullable":true,
+                  "minimum":0
+               },
+               "fee":{
+                  "type":"integer",
+                  "format":"int64",
+                  "description":"Represents the invoice fee",
+                  "nullable":true,
+                  "minimum":0
+               },
+               "payment_request":{
+                  "type":"string",
+                  "description":"Represents the invoice request"
+               }
+            }
+         },
+         "InvoiceData":{
+            "type":"object",
+            "description":"Define a structure to represent data of the invoice",
+            "required":[
+               "business_id",
+               "presell_id",
+               "order_id",
+               "invoice_date",
+               "description",
+               "customer_name",
+               "customer_email",
+               "currency",
+               "sub_total",
+               "taxes",
+               "shipping",
+               "total_amount",
+               "amount_sat",
+               "apply_split",
+               "paymentSplit"
+            ],
+            "properties":{
+               "amount_sat":{
+                  "type":"integer",
+                  "format":"int64",
+                  "description":"Represents the order‘s total sats",
+                  "minimum":0
+               },
+               "apply_split":{
+                  "type":"boolean",
+                  "description":"Represents split payment if applicable"
+               },
+               "business_id":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the business identifier"
+               },
+               "currency":{
+                  "type":"string",
+                  "description":"Represents the transaction‘s currency"
+               },
+               "customer_email":{
+                  "type":"string",
+                  "description":"Represents the email address"
+               },
+               "customer_name":{
+                  "type":"string",
+                  "description":"Represents the customer‘s name"
+               },
+               "description":{
+                  "type":"string",
+                  "description":"Represents the invoice‘s description"
+               },
+               "invoice_date":{
+                  "type":"string",
+                  "description":"Represents the invoice‘s date"
+               },
+               "order_id":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the order‘s identifier"
+               },
+               "paymentSplit":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/components/schemas/PreorderSplit"
+                  },
+                  "description":"Represents the order detail"
+               },
+               "presell_id":{
+                  "type":"string",
+                  "description":"Represents the pre sale identifier"
+               },
+               "shipping":{
+                  "type":"string",
+                  "description":"Represents the order‘s shipping"
+               },
+               "sub_total":{
+                  "type":"string",
+                  "description":"Represents the order‘s subtotal"
+               },
+               "taxes":{
+                  "type":"string",
+                  "description":"Represents the order‘s taxes"
+               },
+               "total_amount":{
+                  "type":"string",
+                  "description":"Represents the order‘s total amount"
+               }
+            }
+         },
+         "InvoiceFilters":{
+            "type":"object",
+            "description":"Define a structure to filter the invoice by hash",
+            "required":[
+               "hash"
+            ],
+            "properties":{
+               "hash":{
+                  "type":"string",
+                  "description":"Represents the invoice hash"
+               }
+            }
+         },
+         "OrderFilters":{
+            "type":"object",
+            "description":"Define a structure to represent the filter of the order",
+            "required":[
+               "uuid"
+            ],
+            "properties":{
+               "uuid":{
+                  "type":"string",
+                  "description":"Represents the order identifier"
+               }
+            }
+         },
+         "Payment":{
+            "type":"object",
+            "description":"Define a structure to represent the data of the payment",
+            "required":[
+               "address",
+               "amount",
+               "description"
+            ],
+            "properties":{
+               "address":{
+                  "type":"string",
+                  "description":"Represents the payment‘s LNURL"
+               },
+               "amount":{
+                  "type":"integer",
+                  "format":"int64",
+                  "description":"Represents the payment‘s total amount",
+                  "minimum":0
+               },
+               "description":{
+                  "type":"string",
+                  "description":"Represents the payment‘s description"
+               }
+            }
+         },
+         "PaymentFilters":{
+            "type":"object",
+            "description":"Define a structure to represent the filter of the payment",
+            "required":[
+               "address"
+            ],
+            "properties":{
+               "address":{
+                  "type":"string",
+                  "description":"Represents the payment‘s LNURL"
+               }
+            }
+         },
+         "PreorderSplit":{
+            "type":"object",
+            "description":"Define a structure to represent data of collaborators payments",
+            "required":[
+               "invoiceUid",
+               "tipoAsociado",
+               "ldAddress",
+               "amountSat",
+               "status",
+               "invoiceAddress",
+               "attempts"
+            ],
+            "properties":{
+               "amountSat":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the amount (sats) to pay"
+               },
+               "attempts":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the number of payment sending attempts"
+               },
+               "invoiceAddress":{
+                  "type":"string",
+                  "description":"Represents the invoice address"
+               },
+               "invoiceUid":{
+                  "type":"string",
+                  "description":"Represents the pre sale identifier"
+               },
+               "ldAddress":{
+                  "type":"string",
+                  "description":"Represents the address LNURL of the collaborator"
+               },
+               "status":{
+                  "type":"integer",
+                  "format":"int32",
+                  "description":"Represents the payment status"
+               },
+               "tipoAsociado":{
+                  "type":"string",
+                  "description":"Represents the type of collaborator"
+               }
+            }
+         }
+      },
+      "securitySchemes":{
+         "bearerAuth":{
+            "type":"http",
+            "scheme":"bearer"
+         }
+      }
+   }
+}
