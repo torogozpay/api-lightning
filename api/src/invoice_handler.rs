@@ -18,7 +18,7 @@ use tracing::info;
     path = "/api/lightning/v1/createInvoice",
     responses(
         (status = 200, description = "Create a new invoice", body = inline(resp::InvoiceResponse)),
-        (status = 401, description = "Not authorizated", body = inline(resp::ErrorResponse)),
+        (status = 401, description = "Not authorized", body = inline(resp::ErrorResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
     ),
     security(
@@ -85,18 +85,18 @@ pub async fn create_invoice_handler(invoice : web::Json<InvoiceData>, req: HttpR
                 }   
             }      
         },
-        Err(_) => Err(CustomError::new(401, "Not authorizated".to_string()))
+        Err(_) => Err(CustomError::new(401, "Not authorized".to_string()))
     }
 }
 
-/// Get an invoice by hash
+/// Find an invoice by hash
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/lookupInvoice",
     responses(
-        (status = 200, description = "Get an invoice identifies with hash", body = inline(resp::InvoiceFiltersResponse)),
+        (status = 200, description = "Find an invoice ID by hash", body = inline(resp::InvoiceFiltersResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
-        (status = 401, description = "Not authorizated", body = inline(resp::ErrorResponse)),
+        (status = 401, description = "Not authorized", body = inline(resp::ErrorResponse)),
     ),
     security(
         ("bearerAuth" = [])
@@ -120,7 +120,7 @@ pub async fn get_invoice_handler(invoice_filters: web::Json<InvoiceFilters>, req
                 }   
             }                    
         },
-        Err(_) => Err(CustomError::new(401, "Not authorizated".to_string()))
+        Err(_) => Err(CustomError::new(401, "Not authorized".to_string()))
     }
 }
 
@@ -177,14 +177,14 @@ pub fn get_data_invoice(invoiceln: LookupInvoiceResponse, _new: Invoice, err: bo
     return data;
 }
 
-/// Check an invoice
+/// Verify an invoice
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/checkInvoice",
     responses(
-        (status = 200, description = "Verify an invoice identifies with address", body = inline(resp::InvoiceFiltersResponse)),
+        (status = 200, description = "Find an invoice with address", body = inline(resp::InvoiceFiltersResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
-        (status = 401, description = "Not authorizated", body = inline(resp::ErrorResponse)),
+        (status = 401, description = "Not authorized", body = inline(resp::ErrorResponse)),
     ),
     security(
         ("bearerAuth" = [])
@@ -203,7 +203,7 @@ pub async fn check_invoice_handler(invoice_data: web::Json<InvoiceCheck>, req: H
                 }
             }
         },
-        Err(_) => Err(CustomError::new(401, "Not authorizated".to_string()))
+        Err(_) => Err(CustomError::new(401, "Not authorized".to_string()))
     }
 }
 
@@ -212,9 +212,9 @@ pub async fn check_invoice_handler(invoice_data: web::Json<InvoiceCheck>, req: H
     post,
     path = "/api/lightning/v1/lookupOrder",
     responses(
-        (status = 200, description = "Get an order identifies with uuid", body = inline(resp::InvoiceFiltersResponse)),
+        (status = 200, description = "Get an order identified by uuid", body = inline(resp::InvoiceFiltersResponse)),
         (status = 400, description = "Error", body = inline(resp::ErrorResponse)),
-        (status = 401, description = "Not authorizated", body = inline(resp::ErrorResponse)),
+        (status = 401, description = "Not authorized", body = inline(resp::ErrorResponse)),
     ),
     security(
         ("bearerAuth" = [])
@@ -252,7 +252,7 @@ pub async fn get_order_handler(order_filters: web::Json<OrderFilters>, req: Http
                 }    
             }   
         },
-        Err(_) => Err(CustomError::new(401, "Not authorizated".to_string()))
+        Err(_) => Err(CustomError::new(401, "Not authorized".to_string()))
     }
 }
 

@@ -23,49 +23,49 @@ pub struct Claims {
 #[serde_as]   
 #[derive(Debug, Serialize, Deserialize, Default, ToSchema, Clone)]
 pub struct InvoiceData {
-  /// Represents the identifier of the business
+  /// Represents the business identifier 
   pub business_id: i32,
-  /// Represents the identifier of the pre sale
+  /// Represents the pre sale identifier 
   #[schema(value_type = String)]
   #[serde(with = "my_uuid")]   
   pub presell_id: Uuid,
-  /// Represents the identifier of the order
+  /// Represents the order‘s identifier 
   pub order_id: i32,
-  /// Represents the date of the invoice
+  /// Represents the invoice‘s date 
   #[schema(value_type = String)]
   pub invoice_date: DateTime<Utc>,
-  /// Represents the description of the invoice
+  /// Represents the invoice‘s description 
   pub description: String,
-  /// Represents the name of the customer
+  /// Represents the customer‘s name 
   pub customer_name: String,
-  /// Represents the email of the email
+  /// Represents the email address
   pub customer_email: String,
-  /// Represents the currency of the transaction
+  /// Represents the transaction‘s currency 
   pub currency: String,
-  /// Represents the subtotal of the order 
+  /// Represents the order‘s subtotal  
   #[schema(value_type = String)]
   pub sub_total: BigDecimal,
-  /// Represents the taxes of the order
+  /// Represents the order‘s taxes 
   #[schema(value_type = String)]
   pub taxes: BigDecimal,
-  /// Represents the shipping of the order
+  /// Represents the order‘s shipping 
   #[schema(value_type = String)]
   pub shipping: BigDecimal,
-  /// Represents the total amount of the order
+  /// Represents the order‘s total amount 
   #[schema(value_type = String)]
   pub total_amount: BigDecimal,
-  /// Represents the total sats of the order 
+  /// Represents the order‘s total sats  
   pub amount_sat: u64,
-  /// Represents whether split payment applies
+  /// Represents split payment if applicable
   pub apply_split: bool,
-  /// Represents the details of products of the order
+  /// Represents the order detail
   pub paymentSplit: Vec<PreorderSplit>     
 }
 
 /// Define a structure to represent data of collaborators payments
 #[derive(Debug, Serialize, Deserialize, Default, ToSchema, Clone)]
 pub struct PreorderSplit {
-  /// Represents the identifier of the pre sale
+  /// Represents the pre sale identifier 
   #[schema(value_type = String)]
   pub invoiceUid: Uuid,  
   /// Represents the type of collaborator
@@ -74,9 +74,9 @@ pub struct PreorderSplit {
   pub ldAddress: String,
   /// Represents the amount (sats) to pay
   pub amountSat: i32,
-  /// Represents the status of the payment
+  /// Represents the payment status 
   pub status: i32,  
-  /// Represents the address of the invoice
+  /// Represents the invoice address 
   pub invoiceAddress: String, 
   /// Represents the number of payment sending attempts
   pub attempts: i32,    
@@ -85,25 +85,25 @@ pub struct PreorderSplit {
 /// Define a structure to validate invoice
  #[derive(Debug, Serialize, Deserialize, Default, ToSchema, Clone)]
  pub struct InvoiceCheck {
-  /// Represents the request of the invoice
+  /// Represents the invoice request 
   pub payment_request: String,
-  /// Represents the total amount of the invoice
+  /// Represents the invoice total amount
   pub amount: Option<u64>,
-  /// Represents the fee of the invoice
+  /// Represents the invoice fee 
   pub fee: Option<u64>
  }
 
  /// Define a structure to filter the invoice by hash
  #[derive(Debug, Serialize, Deserialize, Default, ToSchema, Clone)]
  pub struct InvoiceFilters {
-   /// Represents the hash of the invoice
+   /// Represents the invoice hash 
    pub hash: String 
 }
 
 /// Define a structure to represent the filter of the order
 #[derive(Debug, Serialize, Deserialize, Default, ToSchema, Clone)]
  pub struct OrderFilters {
-   /// Represents the identifier of the order
+   /// Represents the order identifier 
    #[schema(value_type = String)]
    pub uuid: Uuid
 }
@@ -111,11 +111,11 @@ pub struct PreorderSplit {
 /// Define a structure to represent the data of the payment
 #[derive(Debug, Serialize, Deserialize, Default, ToSchema, Clone)]
 pub struct Payment {
-  /// Represents the LNURL of the payment
+  /// Represents the payment‘s LNURL 
   pub address: String,
-  /// Represents the amount total of the payment
+  /// Represents the payment‘s total amount 
   pub amount: u64,
-  /// Represents the description of the payment
+  /// Represents the payment‘s description 
   pub description: String,
 }
 
@@ -146,7 +146,7 @@ pub struct ProcessResult {
 /// Define a structure to represent the filter of the payment
 #[derive(Debug, Serialize, Deserialize, Default, ToSchema, Clone)]
 pub struct PaymentFilters {
-  /// Represents the LNURL of the payment
+  /// Represents the payment‘s LNURL 
   pub address: String,
 }
 

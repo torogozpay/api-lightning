@@ -40,16 +40,16 @@ pub async fn verificate_token(headers: &HeaderMap) -> Result<i32, CustomError> {
                      // Check other conditions according to your needs
                      let current_time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_secs() as usize;
                      if claims.exp <= current_time {
-                         Err(CustomError::new(401, "Not authorizated".to_string()))
+                         Err(CustomError::new(401, "Not authorized".to_string()))
                      } else { 
                          // You can add more validations here
                          Ok(claims.sub.trim().parse().expect("error business id!"))
                      }
                  }
-                 Err(_) => Err(CustomError::new(401, "Not authorizated".to_string()))
+                 Err(_) => Err(CustomError::new(401, "Not authorized".to_string()))
              }
          }
-         None => Err(CustomError::new(401, "Not authorizated".to_string()))
+         None => Err(CustomError::new(401, "Not authorized".to_string()))
      }
    
    }
@@ -83,7 +83,7 @@ pub async fn verificate_token(headers: &HeaderMap) -> Result<i32, CustomError> {
                  //info!("Token Time: {}", token_data.claims.exp);
      
                  if token_data.claims.exp <= current_time {
-                     return Err(CustomError::new(401, "Not authorizated".to_string()));
+                     return Err(CustomError::new(401, "Not authorized".to_string()));
                  }
      
                  // If valid, return the claims
@@ -94,7 +94,7 @@ pub async fn verificate_token(headers: &HeaderMap) -> Result<i32, CustomError> {
                  match err.kind() {
                      ErrorKind::ExpiredSignature => {
                          info!("Error decoding token: Token has expired");
-                         return Err(CustomError::new(401, "Not authorizated".to_string()));
+                         return Err(CustomError::new(401, "Not authorized".to_string()));
                      }
                      _ => {
                          info!("Error decoding token: {:?}", err);

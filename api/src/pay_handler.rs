@@ -28,11 +28,11 @@ pub async fn get_verify_address_handler(data: web::Json<PaymentFilters>, req: Ht
             Ok(HttpResponse::Ok().json(result))     
         
         },
-        Err(_) => Err(CustomError::new(401, "Not authorizated".to_string()))
+        Err(_) => Err(CustomError::new(401, "Not authorized".to_string()))
     }      
 }
 
-/// Create a bill payment 
+/// Create a new payment 
 #[utoipa::path(
     post,
     path = "/api/lightning/v1/generatePayInvoice",
@@ -55,6 +55,6 @@ pub async fn get_payment_handler(data: web::Json<Payment>, req: HttpRequest) -> 
             Ok(HttpResponse::Ok().json(result))  
        
         },
-        Err(_) => Err(CustomError::new(401, "Not authorizated".to_string()))
+        Err(_) => Err(CustomError::new(401, "Not authorized".to_string()))
     }         
 }
