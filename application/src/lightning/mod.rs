@@ -5,7 +5,7 @@ pub mod types;
 
 use crate::lightning::types::{
     AddInvoiceRequest, AddInvoiceResponse, LookupInvoiceResponse, 
-    SendPaymentV2Request, SendPaymentV2Response //, DestCustomRecordsEntry
+    SendPaymentV2Request, SendPaymentV2Response 
 };
 
 use futures_util::stream::StreamExt; // Importa el trait para usar stream
@@ -211,31 +211,23 @@ impl LndConnector {
 
         // We need to set a max fee amount
         let mut max_fee = (amount as f64 * CONFIG.node.max_fee.clone() as f64) as i64;
+        let min_fee = CONFIG.node.min_fee.clone() as i64;
 
-        if max_fee < 1 {
-            max_fee = CONFIG.node.min_fee.clone() as i64;
+        if max_fee < min_fee {
+            max_fee = min_fee;
         }
 
         if max_fee > amount {
-            max_fee = CONFIG.node.min_fee.clone() as i64;
+            max_fee = amount;
         }
-       
+
         info!("MaxFee {:?} ", max_fee);
-
-        // Prepare your custom records
-        /*let custom_records = DestCustomRecordsEntry {
-            key : 70000,
-            value: _description.as_bytes().to_vec()
-        };*/
-
-        //info!("Custom_records {:?} ", custom_records);
 
         let request = SendPaymentV2Request  {
             payment_request: payment_request.to_string(),
             timeout_seconds: Some(CONFIG.node.pathfinding_timeout.clone() as i32),
             fee_limit_sat: Some(max_fee.to_string()),    
             outgoing_chan_ids: Some(get_channels()),
-            //dest_custom_records: Some(custom_records),
             ..Default::default()
         };
 

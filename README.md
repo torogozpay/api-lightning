@@ -40,11 +40,9 @@ If we set "RUN_ENV = Development", we must create the file Development.toml with
 	cltv_expiry = 144
 	max_paths = 5  
 	pathfinding_timeout = 60 
-	max_fee = 0.01
+	max_fee = 0.02
 	min_fee = 5
-	out1 = 
-	out2 = 
-	out3 = 
+	out = 
 
 	[server]
 	database_url = "postgres://USER:PASSWORD@SERVER:PORT/lightningapi?sslmode=disable"
